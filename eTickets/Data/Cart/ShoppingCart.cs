@@ -21,7 +21,7 @@ namespace eTickets.Data.Cart
             var shoppingCartItem = _context.ShoppingCartItems.FirstOrDefault(x => x.Movie.Id == movie.Id &&
             x.ShoppingCartId == ShoppingCartId);
 
-            if(shoppingCartItem == null)
+            if (shoppingCartItem == null)
             {
                 shoppingCartItem = new ShoppingCartItem()
                 {
@@ -30,9 +30,28 @@ namespace eTickets.Data.Cart
                     Amount = 1
                 };
                 _context.ShoppingCartItems.Add(shoppingCartItem);
-            } else
+            }
+            else
             {
                 shoppingCartItem.Amount++;
+            }
+            _context.SaveChanges();
+        }
+
+        public void RemoveItemFromCart(Movie movie)
+        {
+            var shoppingCartItem = _context.ShoppingCartItems.FirstOrDefault(x => x.Movie.Id == movie.Id &&
+           x.ShoppingCartId == ShoppingCartId);
+
+            if (shoppingCartItem != null)
+            {
+                if(shoppingCartItem.Amount > 1)
+                {
+                    shoppingCartItem.Amount--;
+                }else
+                {
+                    _context.ShoppingCartItems.Remove(shoppingCartItem);
+                }
             }
             _context.SaveChanges();
         }
