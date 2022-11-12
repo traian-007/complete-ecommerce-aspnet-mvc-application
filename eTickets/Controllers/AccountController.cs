@@ -4,6 +4,8 @@ using eTickets.Data.ViewModels;
 using eTickets.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace eTickets.Controllers
@@ -12,12 +14,18 @@ namespace eTickets.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly AppDbContext _appDbContext;
+        private readonly AppDbContext _context;
         public AccountController( UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInMangager, AppDbContext appDbContext)
         {
             _userManager = userManager;
             _signInManager = signInMangager;
-            _appDbContext = appDbContext;
+            _context = appDbContext;
+        }
+
+        public async Task<IActionResult> Users()
+        {
+            var users = await _context.Users.ToListAsync();
+            return View(users);
         }
         public IActionResult Login()
         {
