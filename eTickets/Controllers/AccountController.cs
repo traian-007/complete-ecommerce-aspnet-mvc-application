@@ -77,7 +77,7 @@ namespace eTickets.Controllers
                 UserName = registerVM.EmailAddress
             };
 
-            var newUserResponse = await _userManager.CreateAsync(newUser);
+            var newUserResponse = await _userManager.CreateAsync(newUser, registerVM.Password);
 
             if(newUserResponse.Succeeded)
             {
