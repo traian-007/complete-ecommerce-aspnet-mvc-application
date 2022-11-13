@@ -101,5 +101,10 @@ namespace eTickets.Controllers
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Movies");
         }
+
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
     }
 }
